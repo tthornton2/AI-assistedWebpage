@@ -206,7 +206,12 @@
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
                 <div class="preferences-card p-5">
-                    <h1 class="mb-4 text-center">Email Preferences</h1>
+                    <h1 class="mb-2 text-center">Email Preferences</h1>
+                    <div class="mb-3">
+                        <div class="bg-light border rounded px-3 py-2">
+                            <span class="text-muted small">We recommend keeping Critical Alerts and Notifications checked.</span>
+                        </div>
+                    </div>
                     
                     <div class="success-message" id="successMessage">
                         ✓ Your preferences have been saved successfully!
@@ -224,7 +229,7 @@
                         </div>
 
                         <div class="preference-item d-flex align-items-center">
-                            <input type="checkbox" id="irs-changes" name="irs-changes" class="form-check-input" checked>
+                            <input type="checkbox" id="irs-changes" name="irs-changes" class="form-check-input">
                             <label for="irs-changes" class="form-check-label">Receive notifications of IRS changes and deadlines</label>
                         </div>
 
@@ -351,8 +356,21 @@
             });
         });
 
-        // Handle reset button
-        document.querySelector('button[type="reset"]').addEventListener('click', function() {
+        // Handle reset: clear all selections and stored preferences
+        form.addEventListener('reset', function(e) {
+            e.preventDefault();
+            preferenceCheckboxes.forEach(cb => {
+                if (cb) cb.checked = false;
+            });
+            if (selectAllCheckbox) {
+                selectAllCheckbox.checked = false;
+                selectAllCheckbox.indeterminate = false;
+            }
+            // Remove saved preferences
+            localStorage.removeItem('emailPreferences');
+            // Remove any server response detail
+            const detail = document.getElementById('serverResponse');
+            if (detail) detail.remove();
             successMessage.style.display = 'none';
             updateSelectAllState();
         });

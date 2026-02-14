@@ -7,114 +7,186 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00E95B 0%, #00B34A 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
         }
 
         .preferences-card {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
         }
 
         .preferences-card h1 {
-            color: #333;
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 30px;
-            text-align: center;
+            color: #00572e;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .preference-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
+            padding: 16px 0;
+            border-bottom: 1px solid #e8eef5;
+            transition: background-color 0.2s ease, padding-left 0.2s ease;
+        }
+
+        .preference-item:last-of-type:not(.separator-item) {
+            border-bottom: none;
         }
 
         .preference-item:hover {
-            background-color: #f8f9fa;
+            background-color: #f8fafc;
+            padding-left: 8px;
         }
 
         .preference-item input[type="checkbox"] {
             width: 20px;
             height: 20px;
             cursor: pointer;
-            margin-right: 15px;
-            accent-color: #667eea;
+            accent-color: #00E95B;
             flex-shrink: 0;
+            margin-right: 12px;
+        }
+
+        /* Ensure Bootstrap check inputs match the theme */
+        .form-check-input {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            accent-color: #00E95B;
+            border-color: #00E95B;
+        }
+
+        .form-check-input:checked {
+            background-color: #00E95B;
+            border-color: #00E95B;
+        }
+
+        .form-check-input:indeterminate {
+            background-color: #00E95B;
+            border-color: #00E95B;
+        }
+
+        .form-check-input:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0, 233, 91, 0.25);
+        }
+
+        /* Ensure the Select/Deselect All checkbox uses the theme explicitly */
+        #selectAll,
+        #selectAll.form-check-input {
+            accent-color: #00E95B;
+            background-color: transparent;
+            border-color: #00E95B;
+        }
+
+        #selectAll:checked,
+        #selectAll.form-check-input:checked {
+            background-color: #00E95B;
+            border-color: #00E95B;
         }
 
         .preference-item label {
             margin: 0;
             cursor: pointer;
             font-size: 15px;
-            color: #555;
-            flex: 1;
+            color: #333;
+            line-height: 1.5;
+            font-weight: 500;
         }
 
         .preference-item input[type="checkbox"]:hover {
-            transform: scale(1.1);
+            transform: scale(1.15);
         }
 
-        .button-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 35px;
-            justify-content: center;
+        .preference-item input[type="checkbox"]:indeterminate {
+            accent-color: #00E95B;
         }
 
-        .btn-save {
-            background-color: #667eea;
+        .separator-item {
+            background-color: #f7fff6;
+            padding: 16px 0 !important;
+            margin: 16px 0;
+            border-radius: 8px;
+            border: 2px solid #d6f8df;
+            padding-left: 0 !important;
+        }
+
+        .separator-item:hover {
+            background-color: #e8fff1;
+            padding-left: 0 !important;
+        }
+
+        .separator-item label {
+            font-weight: 700;
+            color: #00572e;
+        }
+
+        .btn-primary-deep {
+            background-color: #0055a8;
+            border: none;
             color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 6px;
+            padding: 10px 28px;
             font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            border-radius: 6px;
+            transition: all 0.3s ease;
         }
 
-        .btn-save:hover {
-            background-color: #5568d3;
+        .btn-primary-deep:hover {
+            background-color: #3a8fd6;
             transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 85, 168, 0.3);
+            color: white;
         }
+            .btn-primary-deep {
+                background-color: #00E95B;
+                border: none;
+                color: white;
+                padding: 10px 28px;
+                font-weight: 600;
+                border-radius: 6px;
+                transition: all 0.2s ease;
+            }
 
-        .btn-reset {
-            background-color: #e9ecef;
-            color: #555;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 6px;
+            .btn-primary-deep:hover {
+                background-color: #7BF3B1;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 12px rgba(0, 233, 91, 0.18);
+                color: white;
+            }
+
+        .btn-secondary-outline {
+            background-color: transparent;
+            border: 2px solid #dde7f0;
+            color: #666;
+            padding: 9px 26px;
             font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            border-radius: 6px;
+            transition: all 0.3s ease;
         }
 
-        .btn-reset:hover {
-            background-color: #dee2e6;
+        .btn-secondary-outline:hover {
+            background-color: #f8fafb;
+            border-color: #0055a8;
+            color: #0055a8;
         }
+            .btn-secondary-outline:hover {
+                background-color: #f8fff7;
+                border-color: #00E95B;
+                color: #007a46;
+            }
 
         .success-message {
             display: none;
             background-color: #d4edda;
             color: #155724;
-            padding: 12px;
+            padding: 14px 16px;
             border-radius: 6px;
             margin-bottom: 20px;
             text-align: center;
             border: 1px solid #c3e6cb;
             animation: slideDown 0.3s ease;
+            font-weight: 500;
         }
 
         @keyframes slideDown {
@@ -127,63 +199,65 @@
                 transform: translateY(0);
             }
         }
-
-        @media (max-width: 480px) {
-            .preferences-card {
-                padding: 25px;
-            }
-
-            .preferences-card h1 {
-                font-size: 24px;
-                margin-bottom: 20px;
-            }
-
-            .preference-item {
-                padding: 12px;
-                margin-bottom: 15px;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="preferences-card">
-        <h1>Email Preferences</h1>
-        
-        <div class="success-message" id="successMessage">
-            ✓ Your preferences have been saved successfully!
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="preferences-card p-5">
+                    <h1 class="mb-4 text-center">Email Preferences</h1>
+                    
+                    <div class="success-message" id="successMessage">
+                        ✓ Your preferences have been saved successfully!
+                    </div>
+
+                    <form id="preferencesForm" class="mb-3">
+                        <div class="preference-item d-flex align-items-center">
+                            <input type="checkbox" id="critical-alerts" name="critical-alerts" class="form-check-input" checked>
+                            <label for="critical-alerts" class="form-check-label">Critical alerts and notifications about your tax return</label>
+                        </div>
+
+                        <div class="preference-item d-flex align-items-center">
+                            <input type="checkbox" id="special-offers" name="special-offers" class="form-check-input">
+                            <label for="special-offers" class="form-check-label">Information about special offers for tax services</label>
+                        </div>
+
+                        <div class="preference-item d-flex align-items-center">
+                            <input type="checkbox" id="irs-changes" name="irs-changes" class="form-check-input" checked>
+                            <label for="irs-changes" class="form-check-label">Receive notifications of IRS changes and deadlines</label>
+                        </div>
+
+                        <div class="preference-item d-flex align-items-center">
+                            <input type="checkbox" id="newsletter" name="newsletter" class="form-check-input">
+                            <label for="newsletter" class="form-check-label">Learn from a monthly tax newsletter with tax news and tips</label>
+                        </div>
+
+                        <div class="preference-item separator-item d-flex align-items-center">
+                            <input type="checkbox" id="selectAll" name="selectAll" class="form-check-input">
+                            <label for="selectAll" class="form-check-label">Select/Deselect All</label>
+                        </div>
+
+                        <div class="d-flex gap-3 justify-content-center mt-5">
+                            <button type="submit" class="btn btn-primary-deep">Save Preferences</button>
+                            <button type="reset" class="btn btn-secondary-outline">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        <form id="preferencesForm">
-            <div class="preference-item">
-                <input type="checkbox" id="critical-alerts" name="critical-alerts" checked>
-                <label for="critical-alerts">Critical alerts and notifications about your tax return</label>
-            </div>
-
-            <div class="preference-item">
-                <input type="checkbox" id="special-offers" name="special-offers">
-                <label for="special-offers">Information about special offers for tax services</label>
-            </div>
-
-            <div class="preference-item">
-                <input type="checkbox" id="irs-changes" name="irs-changes" checked>
-                <label for="irs-changes">Receive notifications of IRS changes and deadlines</label>
-            </div>
-
-            <div class="preference-item">
-                <input type="checkbox" id="newsletter" name="newsletter">
-                <label for="newsletter">Learn from a monthly tax newsletter with tax news and tips</label>
-            </div>
-
-            <div class="button-group">
-                <button type="submit" class="btn-save">Save Preferences</button>
-                <button type="reset" class="btn-reset">Reset</button>
-            </div>
-        </form>
     </div>
 
     <script>
         const form = document.getElementById('preferencesForm');
         const successMessage = document.getElementById('successMessage');
+        const selectAllCheckbox = document.getElementById('selectAll');
+        const preferenceCheckboxes = [
+            document.getElementById('critical-alerts'),
+            document.getElementById('special-offers'),
+            document.getElementById('irs-changes'),
+            document.getElementById('newsletter')
+        ];
 
         // Load preferences from localStorage on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -197,36 +271,90 @@
                     }
                 });
             }
+            updateSelectAllState();
         });
+
+        // Handle Select/Deselect All
+        selectAllCheckbox.addEventListener('change', function() {
+            preferenceCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+
+        // Update Select/Deselect All state when individual checkboxes change
+        preferenceCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateSelectAllState);
+        });
+
+        function updateSelectAllState() {
+            const allChecked = preferenceCheckboxes.every(checkbox => checkbox.checked);
+            const noneChecked = preferenceCheckboxes.every(checkbox => !checkbox.checked);
+            selectAllCheckbox.checked = allChecked;
+            selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
+        }
 
         // Handle form submission
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Collect current preferences
-            const preferences = {
-                'critical-alerts': document.getElementById('critical-alerts').checked,
-                'special-offers': document.getElementById('special-offers').checked,
-                'irs-changes': document.getElementById('irs-changes').checked,
-                'newsletter': document.getElementById('newsletter').checked
-            };
+            // Collect current preferences into FormData
+            const formData = new FormData();
+            formData.append('critical-alerts', document.getElementById('critical-alerts').checked);
+            formData.append('special-offers', document.getElementById('special-offers').checked);
+            formData.append('irs-changes', document.getElementById('irs-changes').checked);
+            formData.append('newsletter', document.getElementById('newsletter').checked);
 
-            // Save to localStorage
-            localStorage.setItem('emailPreferences', JSON.stringify(preferences));
+            // Send data to the local Java endpoint for testing
+            fetch('http://localhost:8080/preferences', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(json => {
+                // Save to localStorage as well
+                const preferences = {
+                    'critical-alerts': document.getElementById('critical-alerts').checked,
+                    'special-offers': document.getElementById('special-offers').checked,
+                    'irs-changes': document.getElementById('irs-changes').checked,
+                    'newsletter': document.getElementById('newsletter').checked
+                };
+                localStorage.setItem('emailPreferences', JSON.stringify(preferences));
 
-            // Show success message
-            successMessage.style.display = 'block';
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 3000);
+                // Show success message and server response
+                successMessage.style.display = 'block';
+                successMessage.textContent = 'Preferences saved — server acknowledged.';
 
-            // Log for demonstration
-            console.log('Preferences saved:', preferences);
+                // Display received details below the message
+                let detail = document.getElementById('serverResponse');
+                if (!detail) {
+                    detail = document.createElement('pre');
+                    detail.id = 'serverResponse';
+                    detail.className = 'mt-3 p-3 bg-light border rounded';
+                    successMessage.parentNode.insertBefore(detail, successMessage.nextSibling);
+                }
+                detail.textContent = JSON.stringify(json, null, 2);
+
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+
+                console.log('Preferences sent successfully', json);
+            })
+            .catch(error => {
+                console.error('Error sending preferences:', error);
+                alert('There was an error saving your preferences. Please try again.');
+            });
         });
 
         // Handle reset button
-        document.querySelector('.btn-reset').addEventListener('click', function() {
+        document.querySelector('button[type="reset"]').addEventListener('click', function() {
             successMessage.style.display = 'none';
+            updateSelectAllState();
         });
     </script>
 

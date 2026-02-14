@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Preferences</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        .preferences-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .preferences-card h1 {
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .preference-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .preference-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .preference-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-right: 15px;
+            accent-color: #667eea;
+            flex-shrink: 0;
+        }
+
+        .preference-item label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 15px;
+            color: #555;
+            flex: 1;
+        }
+
+        .preference-item input[type="checkbox"]:hover {
+            transform: scale(1.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 35px;
+            justify-content: center;
+        }
+
+        .btn-save {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-save:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background-color: #e9ecef;
+            color: #555;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-reset:hover {
+            background-color: #dee2e6;
+        }
+
+        .success-message {
+            display: none;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #c3e6cb;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .preferences-card {
+                padding: 25px;
+            }
+
+            .preferences-card h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .preference-item {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preferences-card">
+        <h1>Email Preferences</h1>
+        
+        <div class="success-message" id="successMessage">
+            ✓ Your preferences have been saved successfully!
+        </div>
+
+        <form id="preferencesForm">
+            <div class="preference-item">
+                <input type="checkbox" id="critical-alerts" name="critical-alerts" checked>
+                <label for="critical-alerts">Critical alerts and notifications about your tax return</label>
+            </div>
+
+            <div class="preference-item">
+                <input type="checkbox" id="special-offers" name="special-offers">
+                <label for="special-offers">Information about special offers for tax services</label>
+            </div>
+
+            <div class="preference-item">
+                <input type="checkbox" id="irs-changes" name="irs-changes" checked>
+                <label for="irs-changes">Receive notifications of IRS changes and deadlines</label>
+            </div>
+
+            <div class="preference-item">
+                <input type="checkbox" id="newsletter" name="newsletter">
+                <label for="newsletter">Learn from a monthly tax newsletter with tax news and tips</label>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-save">Save Preferences</button>
+                <button type="reset" class="btn-reset">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('preferencesForm');
+        const successMessage = document.getElementById('successMessage');
+
+        // Load preferences from localStorage on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedPreferences = localStorage.getItem('emailPreferences');
+            if (savedPreferences) {
+                const preferences = JSON.parse(savedPreferences);
+                Object.keys(preferences).forEach(key => {
+                    const checkbox = document.getElementById(key);
+                    if (checkbox) {
+                        checkbox.checked = preferences[key];
+                    }
+                });
+            }
+        });
+
+        // Handle form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Collect current preferences
+            const preferences = {
+                'critical-alerts': document.getElementById('critical-alerts').checked,
+                'special-offers': document.getElementById('special-offers').checked,
+                'irs-changes': document.getElementById('irs-changes').checked,
+                'newsletter': document.getElementById('newsletter').checked
+            };
+
+            // Save to localStorage
+            localStorage.setItem('emailPreferences', JSON.stringify(preferences));
+
+            // Show success message
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+
+            // Log for demonstration
+            console.log('Preferences saved:', preferences);
+        });
+
+        // Handle reset button
+        document.querySelector('.btn-reset').addEventListener('click', function() {
+            successMessage.style.display = 'none';
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
